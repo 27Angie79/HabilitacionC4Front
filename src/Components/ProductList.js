@@ -5,14 +5,10 @@ const ProductList = ({setProduct,  products, setFormNewProduct}) => {
     const handleDelete = id => {
         const requestInit = {
             method: 'DELETE'
-        }
+        };
         fetch('http://localhost:8080/api/product/'+id, requestInit)
-        .then(res => res.json())
-        .then(res => {
-            console.log(res);
-        })
+        .then(res => setFormNewProduct(false))
         .catch(res => console.log(res))
-
     }
 
     let catchProduct = (product) => {
