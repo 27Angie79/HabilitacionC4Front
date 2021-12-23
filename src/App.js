@@ -1,24 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import Form from './Components/Form';
+import ProductList from './Components/ProductList';
 
 function App() {
 
+  const [formNewProduct, setFormNewProduct] = useState(false);
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+
+  useEffect(()=>{
+    const getAllProducts = () => {
+      fetch('http://localhost:8080/api/product/all')
+      .then(res => res.json())
+      .then(res => {
+          setProducts(res);
+      })
+      .catch(res => console.log(res))
+  }
+    getAllProducts()
+  }, [])
+
+  useEffect(()=>{
+
+  },[formNewProduct, product, products])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+      formNewProduct? 
+        <Form product={product} formNewProduct={formNewProduct}/> 
+      : 
+        <ProductList product={product} setProduct={setProduct} products={products} setFormNewProduct={setFormNewProduct}/>
+      }
     </div>
   );
 }
